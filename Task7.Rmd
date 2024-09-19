@@ -1,0 +1,93 @@
+---
+title: "Task7"
+author: "Ariyoshi"
+date: "2024-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Tidybiology package
+#### load devtools
+library(devtools)
+#### install Tidybiology package
+devtools::install_github("hirscheylab/tidybiology")
+```
+
+## a 
+### Extract Summary Statistics
+- summarise():Used to calculate summary statistics for a data frame
+- na.rm = TRUE : Ignore NA
+
+```{r}
+## load tidyverse
+library(tidyverse)
+library(tidybiology)
+## summary statistics for variations, protein_coding_genes, miRNAs
+chromosome_summary <- chromosome %>%
+  summarise(
+    mean_variations = mean(variations, na.rm = TRUE),
+    median_variations = median(variations, na.rm = TRUE),
+    max_variations = max(variations, na.rm = TRUE),
+    mean_protein_coding_genes = mean(protein_codinggenes, na.rm = TRUE),
+    median_protein_coding_genes = median(protein_codinggenes, na.rm = TRUE),
+    max_protein_coding_genes = max(protein_codinggenes, na.rm = TRUE),
+    mean_miRNAs = mean(mi_rna, na.rm = TRUE),
+    median_miRNAs = median(mi_rna, na.rm = TRUE),
+    max_miRNAs = max(mi_rna, na.rm = TRUE)
+  )
+chromosome_summary
+```
+
+## b
+### Visualize Chromosome Size Distribution
+```{r}
+## load ggplot2
+library(ggplot2)
+ggplot(chromosome, aes(x = id , y = basepairs)) + geom_bar(stat = "identity") + theme_minimal()
+```
+
+## c
+### Correlation with Chromosome Length
+```{r}
+## protein coding genes
+ggplot(chromosome, aes(x = length_mm, y = protein_codinggenes)) +
+  geom_point(size = 3) +
+  labs(title = "Correlation between Chromosome Length and Protein Coding Genes",
+       x = "Chromosome Length",
+       y = "Number of Protein Coding Genes") +
+  theme_minimal()
+
+## miRNA
+ggplot(chromosome, aes(x = length_mm, y = mi_rna)) +
+  geom_point(size = 3) +
+  labs(title = "Correlation between Chromosome Length and miRNA",
+       x = "Chromosome Length",
+       y = "miRNA") +
+  theme_minimal()
+```
+## d
+### Summary Statistics and Visualization for Proteins Data
+```{r}
+## Sumstats
+proteins_summary <- proteins %>%
+  summarise(
+    mean_length = mean(length, na.rm = TRUE),
+    median_length = median(length, na.rm = TRUE),
+    max_length = max(length, na.rm = TRUE),
+    mean_mass = mean(mass, na.rm = TRUE),
+    median_mass = median(mass, na.rm = TRUE),
+    max_mass = max(mass, na.rm = TRUE),
+  )
+proteins_summary
+## Visualization
+ggplot(proteins, aes(x = length, y = mass)) +
+  geom_point(color = "blue",size = 3) +
+  labs(title = "Correlation between length and mass of Protein",
+       x = "Length",
+       y = "mass") +
+  theme_minimal()
+```

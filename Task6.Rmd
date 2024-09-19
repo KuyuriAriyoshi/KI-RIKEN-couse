@@ -1,0 +1,165 @@
+---
+title: "Task6"
+author: "Ariyoshi"
+date: "2024-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# 1.Compare the distributions of the body heights
+- breaks:A parameter that specifies how finely the range of data should be delimited when creating a histogram.
+
+## a
+### hist function
+- data[Row Condition, Column Specification]
+- Row Condition:Conditions for selecting rows
+- Column Specification:Specify the columns you want to display
+```{R}
+### read Data
+data <- read.csv("c:/Users/kuyuri/KI/magic_guys.csv")
+### Filtering
+jedi <- data[data$species == "jedi", "length"]
+### hist function
+hist(jedi, breaks = 20, main = "length of jedi", xlab = "length")
+```
+
+### ggplot2
+- ggplot():Set up a frame to create a plot of data
+- aes():Function to set aesthetic mapping.Define correspondence between data variables and visual attributes of the graph (e.g., x-axis, y-axis, color, size, etc.)
+- fill = species: color-code according to Species.
+- geom_histogram():Functions to create histograms in ggplot2 package
+- alpha:Color Transparency (0: completely transparent, 1: completely opaque).
+- position = "identity":When the bars overlap, transparency (alpha) makes the overlap visible.
+- bins:Number of histogram bins
+- labs():This function is used to set labels and titles for a graph. Use this function to add titles, x-axis labels, y-axis labels, etc. to a graph.
+- theme_minimal:Set the theme of the graph
+```{R}
+## Load ggplot2 package
+library(ggplot2)
+## ggplot
+ggplot(data, aes(x = weight, fill = species))  + geom_histogram(alpha = 0.5, position = "identity", bins = 20) + theme_minimal() 
+```
+
+## b
+### Boxplot
+```{R}
+## Load ggplot2 package
+library(ggplot2)
+## Create boxplots
+ggplot(data, aes(x = species, y = length, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Comparison of length by Species", x = "Species", y = "length") +
+  theme_minimal()
+```
+
+## c
+- png:Use for web and digital applications where a raster image is needed. It supports transparency and is widely compatible.
+- pdf:Use for high-quality vector graphics suitable for printing or detailed documents. It maintains quality at any size and is ideal for sharing publications.
+- svg:Use for scalable vector graphics on the web. It’s ideal for graphics that need to be resized without losing quality and can be easily edited with code.
+```{R}
+## png
+png("c:/Users/kuyuri/KI/plot.png")
+## Create boxplots
+ggplot(data, aes(x = species, y = length, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Comparison of length by Species", x = "Species", y = "length") +
+  theme_minimal()
+## Complete save
+dev.off()
+
+## pdf
+pdf("c:/Users/kuyuri/KI/plot.pdf")
+## Create boxplots
+ggplot(data, aes(x = species, y = length, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Comparison of length by Species", x = "Species", y = "length") +
+  theme_minimal()
+## Complete save
+dev.off()
+
+## svg
+svg("c:/Users/kuyuri/KI/plot.svg")
+## Create boxplots
+ggplot(data, aes(x = species, y = length, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Comparison of length by Species", x = "Species", y = "length") +
+  theme_minimal()
+## Complete save
+dev.off()
+
+```
+
+
+# 2. The gene expression data
+## a
+### How big is the matrix in terms of rows and columns?
+```{R}
+## read Data
+data2 <- read.table("c:/Users/kuyuri/KI/microarray_data.tab", header = TRUE, sep = "\t")
+## Check row and column sizes
+dim(data2)
+```
+
+## b
+### Count the missing values per gene and visualize this result.
+- colSums():Calculate the sum of each column
+```{R}
+## counts of missing values
+missing_counts <- colSums(is.na(data2))
+## Visualize in histogram
+hist(missing_counts,breaks = 553, xlab = "gene expression")
+```
+
+## c
+### Find the genes for which there are more than X% (X=10%, 20%, 50%) missing values.
+- names():Obtains the name given to the object given as the argument (in this case, a gene with a percentage of missing values greater than 10%). In this case, the name of each gene is obtained.
+
+```{R}
+## Get the number of samples (number of rows)
+n_samples <- nrow(data2)
+## Calculate percentage of missing values
+missing_percentages <- colSums(is.na(data2)) / n_samples * 100
+## Extract genes with missing values greater than X%
+### 10
+genes_10_percent <- names(missing_percentages[missing_percentages > 10])
+genes_10_percent
+### 20
+genes_20_percent <- names(missing_percentages[missing_percentages > 20])
+genes_20_percent
+### 50
+genes_50_percent <- names(missing_percentages[missing_percentages > 50])
+genes_50_percent 
+```
+
+## d
+### Replace the missing values by the average expression value for the particular gene.
+- na.rm = TRUE:Calculations are performed ignoring missing values (NA).
+- seq_along():Used to generate the index (number) of an element of a given object
+- data2[, i]:Checks whether each element in the i-th column of data2 is a missing value (NA) and returns a boolean value (TRUE or FALSE)
+- mean_values[i]:Assign the i-th value of mean_values
+
+```{R}
+## Calculate the average value for each gene
+mean_values <- colMeans(data2,na.rm = TRUE)
+## Fill in missing values with the mean
+data2_filled <- data2
+for (i in seq_along(mean_values)) {
+  data2_filled[is.na(data2[, i]), i] <- mean_values[i]
+}
+data2_filled
+```
+
+# 3.Visualize the data in the CO2 dataset
+```{R}
+## Load CO2 data set
+data(CO2)  
+## boxplot
+ggplot(CO2, aes(x = Type, y = uptake, fill = Type)) +
+  geom_boxplot() +
+  labs(x = "Type", y = "uptake") +
+  theme_minimal()
+```
+
+

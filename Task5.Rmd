@@ -1,0 +1,59 @@
+---
+title: "Task5 R Function"
+author: "Ariyoshi"
+date: "2024-09-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# A function that calculates the ratio of the mean and the median of a given vector
+- function():Define a function. Receives specific inputs (arguments) and performs calculations or processing on those inputs.
+- na.rm = TRUE:Ignore missing values (NA)
+- return() : Returns the result of the function. Without it, the result of the function's operation is simply computed and not returned to the caller.
+```
+# Function to compute the ratio of mean and median
+mean_median_ratio <- function(vector) {
+# compute the mean
+mean_value <- mean(vector, na.rm = TRUE)
+# compute median value
+median_value <- median(vector, na.rm = TRUE)
+# calculate ratio
+ratio <- mean_value / median_value
+# return the ratio
+return(ratio)
+}
+```
+# A function that ignores the lowest and the highest value from a given vector and calculate the mean
+- length(): Function used to get the number of elements
+- min(): returns the smallest value
+- max(): returns the largest value 
+- vector[...]] : Extracting a specific element from a vector 
+```
+# Define function
+mean_ignore_extremes <- function(vector) {
+# Checks to see if the vector has more than three values; if it has only two or less, it displays an error message because there is no point in excluding the minimum and maximum values.
+if (length(vector) <= 2) {
+stop("Vector must have more than two elements.")
+}
+# Exclude minimum and maximum vector values
+trimmed_vector <- vector[vector != min(vector) & vector != max(vector)]
+# Calculate the mean
+mean_value <- mean(trimmed_vector, na.rm = TRUE)
+# return the mean value
+return(mean_value)
+}
+```
+# Explanation of why, how, and when not to use pipes
+
+Pipes (%>%) simplify code but aren't always ideal. 
+Why: They struggle with long chains, complex dependencies, or multiple inputs. 
+How: Use intermediate variables for lengthy or complex tasks. 
+When: Avoid pipes for complex processes or when multiple objects are involved to maintain clarity and manageability.
+
+# Leveraging apply Functions for Efficient Data Manipulation
+
+apply functions streamline data manipulation by allowing efficient row/column operations (apply), list transformations (lapply/sapply), and grouped summaries (tapply). 
+They reduce repetitive code and enhance data processing speed, crucial for handling large datasets effectively.
