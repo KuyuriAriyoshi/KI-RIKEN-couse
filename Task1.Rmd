@@ -1,0 +1,33 @@
+---
+title: "Task 1"
+author: "Ariyoshi"
+date: "2024-09-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# 2.Answer the following questions
+## a. What is the medically relevant insight from the article?
+The article focuses on the impact of mobile genetic elements (MEs).
+While often overlooked in genetic studies, MEs play a significant role in genomic diversity and can contribute to disease risk.
+The researchers developed a tool called MEGAnE, which accurately identifies variations in MEs using short-read whole-genome sequencing data. 
+This tool helps understand how MEs contribute to differences in gene expression and disease risk across populations.
+The study found that ME variations (MEVs) differ significantly among populations, highlighting the role of these elements in human divergence.
+For example, a specific type of ME called Alu showed a unique distribution pattern in the Japanese population compared to other groups.
+Importantly, the research demonstrated that MEVs can directly influence disease risk. 
+They found an association between a specific ME insertion and an increased risk of keloid, a type of skin scarring, providing a potential target for developing genotype-guided therapies.
+Overall, this study emphasizes the importance of including MEVs in genetic studies to better understand human evolution, gene regulation, and the development of personalized medicine strategies.
+
+## b. Which genomics technology/ technologies were used?
+The study utilized short-read whole-genome sequencing (WGS) to genotype 
+mobile element variants (MEVs) and developed a tool called MEGAnE for 
+accurate MEV identification. Additionally, expression quantitative trait loci (eQTL) mapping was conducted using RNA-seq data from the GTEx project 
+to assess the impact of MEVs on gene expression across multiple tissues.
+
+# 3.Further related research questions
+## a. List and explain at least three questions/ hypotheses you can think of that extend the analysis presented in the paper.
+- How do MEVs contribute to gene regulation in a tissue-specific manner, and what are the molecular mechanisms underlying this specificity?
+- What is the strength of this tool compared to other tools of identification SVs?  
+- Do population-specific MEVs contribute to observed differences in disease prevalence among different ethnic groups?
