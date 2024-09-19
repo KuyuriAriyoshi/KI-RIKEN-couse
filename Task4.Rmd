@@ -1,0 +1,79 @@
+---
+title: "Task4 Using R example datasets"
+author: "Ariyoshi"
+date: "2024-09-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1: Use the R intarnal CO2 dataset
+- data(CO2):Load the internal R dateset CO2
+- head(CO2):Display the first six rows of the dataset, giving an initial view of its structure and contents.
+```{r}
+## Load CO2 data set
+data(CO2)  
+## Display dataset contents
+head(CO2)
+```
+
+
+# 2: Describe the content of the CO2
+- ?CO2:opens the help documentation for the CO2 dataset, providing details on the dataset's content.
+
+```
+?CO2
+```
+Carbon Dioxide Uptake in Grass Plants
+
+The CO2 data frame has 84 rows and 5 columns of data from an experiment on the cold tolerance of the grass species Echinochloa crus-galli.
+
+# 3: the average and median CO2 uptake of the plants from Quebec and Mississippi
+
+- <-:Assign values to variables
+- subset():used to filter a dataset based on a specific condition
+- CO2$Type == "Quebec":filters the CO2 dataset to only include rows where the Type column equals "Quebec".The Type column indicates the origin of the plant, and this condition isolates the data for plants from Quebec.
+
+```{r}
+## Extract data for Quebec and Mississippi
+quebec_data <- subset(CO2, CO2$Type == "Quebec")
+mississippi_data <- subset(CO2, CO2$Type == "Mississippi")
+# Display quebec
+head(quebec_data)
+# Display mississippi
+head(mississippi_data)
+```
+- mean(quebec_data$uptake):the average (mean) of the uptake values from the quebec_data dataset. 
+- median(quebec_data$uptake):the median of the uptake values from the quebec_data dataset. 
+- list():creates a list, which is a collection of elements that can contain different types of data
+- Quebec_Mean = quebec_mean:This assigns the value stored in quebec_mean (the average CO2 uptake for Quebec plants) to an entry in the list labeled "Quebec_Mean".
+
+```{r}
+## calcurate the average and median
+
+quebec_mean <- mean(quebec_data$uptake)
+quebec_median <- median(quebec_data$uptake)
+
+mississippi_mean <- mean(mississippi_data$uptake)
+mississippi_median <- median(mississippi_data$uptake)
+
+
+## results
+list(Quebec_Mean = quebec_mean, Quebec_Median = quebec_median,
+     Mississippi_Mean = mississippi_mean, Mississippi_Median = mississippi_median)
+```
+
+
+-From the output of this analysis, I can derive key insights about the CO2 uptake in grass plants from Quebec and Mississippi.
+
+-Quebec:
+The average CO2 uptake is 33.54 and the median is 37.15. The closeness of these values suggests that the data distribution is relatively symmetric.
+
+-Mississippi:
+The average CO2 uptake is 20.88, while the median is 19.3. The average being higher than the median indicates that the data may be right-skewed (i.e., there are some unusually high values).
+
+-Plants from Quebec absorb more CO2 on average compared to plants from Mississippi.
+-The data for Quebec is relatively symmetric, while the data for Mississippi may be skewed.
+-These results indicate differences in CO2 uptake characteristics between plants from different regions, potentially influenced by environmental factors or plant characteristics.
